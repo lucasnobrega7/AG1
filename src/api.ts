@@ -7,6 +7,12 @@ export default async function handler(
   res: VercelResponse
 ) {
   try {
+    // Verificar se é uma solicitação para o dashboard
+    if (req.url && (req.url.startsWith('/dashboard') || req.url.startsWith('/_mastra'))) {
+      // Delegar ao middleware de UI do Mastra
+      return mastra.handleDashboardRequest(req, res);
+    }
+    
     // Informações básicas da API
     const info = {
       status: 'online',
@@ -14,9 +20,11 @@ export default async function handler(
       message: 'Mastra API está funcionando!',
       endpoints: {
         '/': 'Informações da API',
+        '/dashboard': 'Dashboard do Mastra (login: admin/mastra123)',
         '/api/weather': 'Serviço de previsão do tempo (exemplo)'
       },
       mastraStatus: 'loaded',
+      dashboardEnabled: true,
       timestamp: new Date().toISOString()
     };
     

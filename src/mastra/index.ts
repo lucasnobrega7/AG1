@@ -23,6 +23,14 @@ const mastraConfig = {
     name: 'Mastra',
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
   }),
+  // Habilitar o dashboard do Mastra
+  dashboard: {
+    enabled: true,
+    auth: process.env.DASHBOARD_DISABLED === 'true' ? false : {
+      username: process.env.DASHBOARD_USERNAME || 'admin',
+      password: process.env.DASHBOARD_PASSWORD || 'mastra123',
+    },
+  },
 };
 
 // Se o token do Vercel estiver configurado, adicione o VercelDeployer
