@@ -7,10 +7,18 @@ export default async function handler(
   res: VercelResponse
 ) {
   try {
-    // Verificar se é uma solicitação para o dashboard
-    if (req.url && (req.url.startsWith('/dashboard') || req.url.startsWith('/_mastra'))) {
-      // Delegar ao middleware de UI do Mastra
-      return mastra.handleDashboardRequest(req, res);
+    // Endpoint para status e monitoramento
+    if (req.url && req.url.startsWith('/status')) {
+      return res.status(200).json({
+        uptime: process.uptime(),
+        timestamp: Date.now(),
+        mastra: {
+          version: '0.9.1',
+          status: 'online',
+          agents: Object.keys(mastra.getAgents()),
+          workflows: Object.keys(mastra.getWorkflows()),
+        }
+      });
     }
     
     // Informações básicas da API
@@ -20,11 +28,10 @@ export default async function handler(
       message: 'Mastra API está funcionando!',
       endpoints: {
         '/': 'Informações da API',
-        '/dashboard': 'Dashboard do Mastra (login: admin/mastra123)',
+        '/status': 'Status e métricas do sistema',
         '/api/weather': 'Serviço de previsão do tempo (exemplo)'
       },
       mastraStatus: 'loaded',
-      dashboardEnabled: true,
       timestamp: new Date().toISOString()
     };
     
