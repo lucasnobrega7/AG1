@@ -35,11 +35,15 @@ if (VERCEL_TOKEN && VERCEL_TEAM_SLUG) {
     // Importação dinâmica para evitar erro se o módulo não estiver instalado
     // Para usar esse recurso, instale com: npm install @mastra/deployer-vercel
     const { VercelDeployer } = await import('@mastra/deployer-vercel');
-    mastraConfig.deployer = new VercelDeployer({
+    
+    // Adicione o deployer à configuração, usando type assertion para TypeScript
+    (mastraConfig as any).deployer = new VercelDeployer({
       teamSlug: VERCEL_TEAM_SLUG,
       projectName: VERCEL_PROJECT_NAME,
       token: VERCEL_TOKEN
     });
+    
+    console.log('VercelDeployer configurado com sucesso');
   } catch (error) {
     console.log('VercelDeployer não disponível, continuando sem ele');
   }

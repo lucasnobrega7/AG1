@@ -15,8 +15,8 @@ export default async function handler(
         mastra: {
           version: '0.9.1',
           status: 'online',
-          agents: Object.keys(mastra.getAgents()),
-          workflows: Object.keys(mastra.getWorkflows()),
+          agents: Object.keys((mastra as any).getAgents ? (mastra as any).getAgents() : {}),
+          workflows: Object.keys((mastra as any).getWorkflows ? (mastra as any).getWorkflows() : {}),
         }
       });
     }
