@@ -1,113 +1,117 @@
-# Projeto Agente de Inteligência Artificial
+# AG1 - Plataforma de Agentes de IA com RAG
 
-Este repositório contém um sistema de agentes de IA com integração com LlamaIndex, Superagent e Supabase.
+## 🚀 Sobre o Projeto
 
-## Arquitetura de Segurança
+AG1 é uma plataforma de criação de agentes de IA personalizados utilizando Retrieval-Augmented Generation (RAG), permitindo que usuários criem chatbots inteligentes com conhecimento específico.
 
-O projeto implementa uma arquitetura de segurança robusta para proteger APIs e dados dos usuários:
+## 🛠️ Tecnologias Principais
 
-### Clientes Supabase
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend**: Supabase, PostgreSQL, Edge Functions
+- **IA/ML**: LlamaIndex, OpenAI, Anthropic
+- **Infraestrutura**: Vercel, Docker
+- **Monitoramento**: Sentry
 
-O sistema utiliza diferentes clientes Supabase para separar preocupações de segurança:
-
-1. **Cliente do Navegador** (`client-browser.ts`)
-   - Usa apenas a chave anônima (segura para expor no cliente)
-   - Implementa apenas operações que respeitam as regras de segurança (RLS)
-   - Gerencia autenticação no lado do cliente
-
-2. **Cliente do Servidor** (`server.ts`)
-   - Usa a chave de serviço para operações administrativas
-   - Implementado com segurança nas Edge Functions e API Routes
-   - Nunca exposto no navegador do cliente
-
-3. **Cliente de Autenticação** (`server.ts`)
-   - Gerencia cookies de autenticação no servidor
-   - Mantém sessões de usuário seguras
-
-## LlamaIndex e RAG
-
-Este projeto incorpora Retrieval-Augmented Generation (RAG) usando LlamaIndex:
-
-### Exemplos de LlamaIndex
-
-- **Chat Engine**: Interface de chat simples com documentos em memória
-- **Agentes**: Cria agentes para responder perguntas sobre informações da empresa
-- **Carregamento de Documentos**: Carrega documentos, cria índices e consultas
-- **LlamaIndex Cloud API**: Utiliza a API Cloud para processar documentos
-- **Sistema RAG Completo**: Aplicação RAG interativa e completa
-
-### Executando Exemplos de LlamaIndex
-
-```bash
-# Instalar dependências
-cd llamaindex-examples
-npm install
-
-# Executar o chat engine
-npm run chat
-
-# Executar exemplo de agente
-npm run agent
-
-# Carregar documentos
-npm run docs
-
-# Usar a API LlamaIndex Cloud
-npm run cloud
-
-# Executar o sistema RAG completo
-npm run rag
-```
-
-## Configuração e Instalação
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env.local` com as seguintes variáveis:
+## 📁 Estrutura do Projeto
 
 ```
-# Configuração OpenAI e LlamaIndex
-OPENAI_API_KEY=sk-xxxx
-LLAMA_CLOUD_API_KEY=llx-xxxx
-
-# Configuração Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxxx
-SUPABASE_SERVICE_ROLE_KEY=eyJxxxx
+AG1/
+├── frontend/          # Aplicação Next.js
+├── backend/           # APIs e serviços
+├── supabase/          # Migrações e configurações
+├── docs/              # Documentação
+└── scripts/           # Scripts de automação
 ```
 
-> **IMPORTANTE**: Nunca comite suas chaves de API no repositório. Use variáveis de ambiente!
+## 🚀 Quick Start
+
+### Pré-requisitos
+
+- Node.js 20+
+- npm ou pnpm
+- Conta no Supabase
+- Chaves de API (OpenAI, Anthropic)
 
 ### Instalação
 
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/lucasnobrega7/AG1.git
+   cd AG1
+   ```
+
+2. Instale as dependências:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+3. Configure as variáveis de ambiente:
+   ```bash
+   cp .env.example .env.local
+   # Edite .env.local com suas chaves
+   ```
+
+4. Execute as migrações do Supabase:
+   ```bash
+   cd ../supabase
+   supabase db push
+   ```
+
+5. Inicie o desenvolvimento:
+   ```bash
+   cd ../frontend
+   npm run dev
+   ```
+
+## 🌐 Deploy
+
+### Vercel (Recomendado)
+
+1. Conecte o repositório ao Vercel
+2. Configure as variáveis de ambiente
+3. Deploy automático em cada push para `main`
+
+### Docker
+
 ```bash
-# Instalar dependências
-npm install
-
-# Executar em desenvolvimento
-npm run dev
-
-# Criar build de produção
-npm run build
+docker-compose up -d
 ```
 
-## Integração com Superagent
+## 🤝 Contribuindo
 
-Este projeto inclui integração com Superagent para gestão avançada de agentes:
+1. Fork o projeto
+2. Crie uma feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add: nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
-- `frontend/app/lib/superagent-client.ts` - Cliente para gerenciar agentes do Superagent
-- `frontend/app/lib/superagent-adapter.ts` - Adaptador para integrar Superagent com outras partes do sistema
+## 📝 Convenções de Commit
 
-## Segurança e Boas Práticas
+- `feat:` Nova funcionalidade
+- `fix:` Correção de bug
+- `docs:` Documentação
+- `style:` Formatação
+- `refactor:` Refatoração
+- `test:` Testes
+- `chore:` Tarefas de manutenção
 
-- **Nunca exponha** chaves de API privadas no código do cliente
-- Use sempre o `.gitignore` para excluir arquivos de ambiente (`.env*`)
-- Implemente autenticação adequada para todas as rotas de API
-- Siga o princípio do menor privilégio para acesso a dados
+## 🔒 Segurança
 
-## Recursos e Documentação
+- Nunca commitar chaves de API
+- Usar variáveis de ambiente para configurações sensíveis
+- Seguir as práticas de segurança do Supabase RLS
 
-- [Supabase - Segurança e Autenticação](https://supabase.com/docs/guides/auth)
-- [LlamaIndex TypeScript](https://ts.llamaindex.ai/)
-- [Documentação do Superagent](https://docs.superagent.sh/)
-- [Next.js API Routes](https://nextjs.org/docs/api-routes/introduction)
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👥 Time
+
+- Lucas Nóbrega - [@lucasnobrega7](https://github.com/lucasnobrega7)
+
+## 🙏 Agradecimentos
+
+- [LlamaIndex](https://www.llamaindex.ai/)
+- [Supabase](https://supabase.com/)
+- [Vercel](https://vercel.com/)
